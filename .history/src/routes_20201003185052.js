@@ -6,7 +6,7 @@ import Signin from './components/Signin/'
 import Dashboard from './components/Admin/Dashboard';
 import PrivateRoutes from './components/AuthRoutes/privateRoutes'
 import PublicRoutes from './components/AuthRoutes/publicRoutes'
-import AdminMatches from './components/Admin/matches/'
+import AdminMatches from './components/Admin/matches/index'
 
 
 const Routes = (props) => {

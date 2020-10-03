@@ -6,7 +6,7 @@ import Signin from './components/Signin/'
 import Dashboard from './components/Admin/Dashboard';
 import PrivateRoutes from './components/AuthRoutes/privateRoutes'
 import PublicRoutes from './components/AuthRoutes/publicRoutes'
-import AdminMatches from './components/Admin/matches/'
+import AdminMatches from './components/Admin/matches/index'
 
 
 const Routes = (props) => {
@@ -16,12 +16,9 @@ const Routes = (props) => {
     <Layout>
       <Switch>
         <PrivateRoutes {...props} path="/dashboard" exact component={Dashboard} />
-        <PrivateRoutes {...props} path="/admin_matches" exact component={AdminMatches} />
         {/* <Route exact component={Signin} path="/sign_in" /> */}
         <PublicRoutes {...props} path="/sign_in" restricted={true} exact component={Signin} />
         <PublicRoutes {...props} path="/" restricted={false} exact component={Home} />
-
-
 
         {/* <Route exact component={Home} path="/" /> */}
       </Switch>
