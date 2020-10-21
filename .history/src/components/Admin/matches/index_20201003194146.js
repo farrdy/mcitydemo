@@ -14,8 +14,6 @@ import { Link } from 'react-router-dom';
 
 class AdminMatches extends Component {
 
-
-
     state = {
         isLoading: true,
         matches: []
@@ -31,9 +29,11 @@ class AdminMatches extends Component {
             })
         })
 
+
     }
 
     render() {
+
 
         return (
             <AdminLayout>
