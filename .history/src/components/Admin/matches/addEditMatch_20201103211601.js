@@ -220,17 +220,6 @@ class AddEditMatch extends Component {
             formdata: newFormdata
         })
     }
-
-    successForm(message) {
-        this.setstate({
-            formSuccess: message
-        });
-        setTimeout(() => {
-            this.setState({
-                formSuccess: ''
-            })
-        }, 2000);
-    }
     submitForm = (event) => {
         event.preventDefault();
         let dataToSubmit = {};
@@ -241,28 +230,9 @@ class AddEditMatch extends Component {
             formIsValid = this.state.formdata[key].valid && formIsValid;
 
         }
-
-        this.state.teams.forEach((team) => {
-            if (team.shortName === dataToSubmit.local) {
-                dataToSubmit['localThmb'] = team.thmb
-            }
-            if (team.shortName === dataToSubmit.away) {
-                dataToSubmit['awayThmb'] = team.thmb
-            }
-        })
-
         if (formIsValid) {
-            if (this.state.formType === 'Edit Match') {
-
-                console.log(dataToSubmit);
-                firebaseDB.ref(`matches/${this.state.matchId}`).update(dataToSubmit)
-                    .then(() => {
-                        this.successForm('Updated correctly')
-                    }).catch((e) => {
-                        this.setState({ formError: true })
-                    })
-            }
-
+            console.log(dataToSubmit);
+            // this.resetFormSuccess()
         }
         else {
             this.setState({
@@ -382,18 +352,6 @@ class AddEditMatch extends Component {
                                     change={(element) => this.updateForm(element)}
                                 />
 
-                            </div>
-                            <div className="success_label">{this.state.formSuccess}</div>
-                            {this.state.formError ?
-
-                                <div className="error_label">
-                                    Something is wrong
-                           </div> : ''
-                            }
-                            <div className="admin_submit">
-                                <button onClick={(event) => this.submitForm(event)}>
-                                    {this.state.formType}
-                                </button>
                             </div>
 
                         </form>

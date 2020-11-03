@@ -220,17 +220,6 @@ class AddEditMatch extends Component {
             formdata: newFormdata
         })
     }
-
-    successForm(message) {
-        this.setstate({
-            formSuccess: message
-        });
-        setTimeout(() => {
-            this.setState({
-                formSuccess: ''
-            })
-        }, 2000);
-    }
     submitForm = (event) => {
         event.preventDefault();
         let dataToSubmit = {};
@@ -250,19 +239,15 @@ class AddEditMatch extends Component {
                 dataToSubmit['awayThmb'] = team.thmb
             }
         })
-
         if (formIsValid) {
             if (this.state.formType === 'Edit Match') {
+                firebaseDB.ref(`matches/${this.state.amatchId}`)
 
-                console.log(dataToSubmit);
-                firebaseDB.ref(`matches/${this.state.matchId}`).update(dataToSubmit)
-                    .then(() => {
-                        this.successForm('Updated correctly')
-                    }).catch((e) => {
-                        this.setState({ formError: true })
-                    })
             }
+            else {
 
+
+            }
         }
         else {
             this.setState({

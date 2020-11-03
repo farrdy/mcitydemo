@@ -250,11 +250,8 @@ class AddEditMatch extends Component {
                 dataToSubmit['awayThmb'] = team.thmb
             }
         })
-
         if (formIsValid) {
             if (this.state.formType === 'Edit Match') {
-
-                console.log(dataToSubmit);
                 firebaseDB.ref(`matches/${this.state.matchId}`).update(dataToSubmit)
                     .then(() => {
                         this.successForm('Updated correctly')

@@ -178,32 +178,6 @@ class AddEditMatch extends Component {
             },
         }
     }
-
-    updateFields(match, teamOptions, teams, type, matchId) {
-
-        const newFormdata = {
-            ...this.state.formdata
-        }
-        for (let key in newFormdata) {
-
-            if (match) {
-                newFormdata[key].value = match[key];
-                newFormdata[key].valid = true
-            }
-            if (key === 'local' || key === 'away') {
-
-                newFormdata[key].config.options = teamOptions
-            }
-        }
-
-        this.setState({
-
-            matchId,
-            formType: type,
-            formdata: newFormdata,
-            teams
-        })
-    }
     updateForm = (element) => {
         const newFormdata = { ...this.state.formdata }
         const newElement = { ...newFormdata[element.id] }
@@ -221,56 +195,6 @@ class AddEditMatch extends Component {
         })
     }
 
-    successForm(message) {
-        this.setstate({
-            formSuccess: message
-        });
-        setTimeout(() => {
-            this.setState({
-                formSuccess: ''
-            })
-        }, 2000);
-    }
-    submitForm = (event) => {
-        event.preventDefault();
-        let dataToSubmit = {};
-        let formIsValid = true;
-
-        for (let key in this.state.formdata) {
-            dataToSubmit[key] = this.state.formdata[key].value;
-            formIsValid = this.state.formdata[key].valid && formIsValid;
-
-        }
-
-        this.state.teams.forEach((team) => {
-            if (team.shortName === dataToSubmit.local) {
-                dataToSubmit['localThmb'] = team.thmb
-            }
-            if (team.shortName === dataToSubmit.away) {
-                dataToSubmit['awayThmb'] = team.thmb
-            }
-        })
-
-        if (formIsValid) {
-            if (this.state.formType === 'Edit Match') {
-
-                console.log(dataToSubmit);
-                firebaseDB.ref(`matches/${this.state.matchId}`).update(dataToSubmit)
-                    .then(() => {
-                        this.successForm('Updated correctly')
-                    }).catch((e) => {
-                        this.setState({ formError: true })
-                    })
-            }
-
-        }
-        else {
-            this.setState({
-                formError: true
-            })
-        }
-    }
-
     componentDidMount() {
 
         const getTeams = (match, type) => {
@@ -283,7 +207,7 @@ class AddEditMatch extends Component {
                         value: childSnapshot.val().shortName
                     })
                 });
-                this.updateFields(match, teamOptions, teams, type, matchId)
+                console.log(teamOptions);
             })
         }
         const matchId = this.props.match.params.id;
@@ -382,18 +306,6 @@ class AddEditMatch extends Component {
                                     change={(element) => this.updateForm(element)}
                                 />
 
-                            </div>
-                            <div className="success_label">{this.state.formSuccess}</div>
-                            {this.state.formError ?
-
-                                <div className="error_label">
-                                    Something is wrong
-                           </div> : ''
-                            }
-                            <div className="admin_submit">
-                                <button onClick={(event) => this.submitForm(event)}>
-                                    {this.state.formType}
-                                </button>
                             </div>
 
                         </form>
